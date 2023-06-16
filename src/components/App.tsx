@@ -1,7 +1,6 @@
-import Avatar from 'components/Avatar'
-
 function App() {
-  return <div></div>
+  console.log(import.meta.env.VITE_PIXEL_KEY)
+  return <div>Hello</div>
 }
 
 export default App
