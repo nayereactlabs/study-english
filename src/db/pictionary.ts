@@ -73,6 +73,7 @@ export type PictionaryQuestion = {
   answer: string
   correctAnswerTranslation: string
   sound: string
+  phonetic: string
 }
 
 export const getPictionaryQuestions = (words: string[]) =>

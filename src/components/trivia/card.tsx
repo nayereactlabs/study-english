@@ -30,6 +30,7 @@ export const TriviaCard = ({
   options,
   pickedOptions,
   showSuccessAnimation,
+  correctAnswer,
   showFailAnimation,
   handleOptionClick,
   onSuccess,
@@ -54,7 +55,7 @@ export const TriviaCard = ({
         <figure className="flex items-center justify-center max-w-lg">
           <img
             src={src}
-            alt={label || 'Pictionary'}
+            alt={correctAnswer || 'Pictionary'}
             className={`absolute object-contain w-auto h-full transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2`}
           />
         </figure>
@@ -77,6 +78,7 @@ export const TriviaCard = ({
                   pickedOptions.includes(option) ? 'btn-disabled' : ''
                 } normal-case`}
               >
+                {/* {option === correctAnswer ? `${label}` : option} */}
                 {option}
               </button>
             )

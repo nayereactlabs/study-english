@@ -13,12 +13,14 @@ function App() {
   const [words, setWords] = useState<string[]>([])
 
   useEffectOnce(() => {
-    getPictinaryTopics().then((topics) => {
+    const fetchWords = async () => {
+      const topics = await getPictinaryTopics()
       const topic = shuffleArray([...topics])[0]
-      getPictinaryWords(topic).then((words) => {
-        setWords(words)
-      })
-    })
+      const words = await getPictinaryWords(topic)
+      setWords(words)
+    }
+
+    fetchWords()
   })
 
   const updateHeight = () => {

@@ -5,6 +5,7 @@ import usePictionary from 'hooks/use-pictionary'
 import useTimer from 'hooks/use-timer'
 import useTriviaScore from 'hooks/use-trivia-score'
 import { useEffect, useState } from 'react'
+import { getColor, t } from 'utils/css'
 
 type PictionaryProps = {
   words: string[]
@@ -15,6 +16,7 @@ const Pictionary = ({ words }: PictionaryProps) => {
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
   const [showFailAnimation, setShowFailAnimation] = useState(false)
   const { minutes, seconds, timeOver } = useTimer(120)
+  const [showAnswers, setShowAnswers] = useState(false)
 
   const onSuccess = () => {
     setShowSuccessAnimation(true)
@@ -33,6 +35,7 @@ const Pictionary = ({ words }: PictionaryProps) => {
   const {
     handleOptionClick,
     question,
+    questions,
     hasNext,
     isLoading: arePictureLoading,
     goNext,
@@ -45,6 +48,10 @@ const Pictionary = ({ words }: PictionaryProps) => {
 
   const playAgain = () => {
     window.location.reload()
+  }
+
+  const onShowAnswers = () => {
+    setShowAnswers((prev) => !prev)
   }
 
   useEffect(() => {
@@ -79,34 +86,61 @@ const Pictionary = ({ words }: PictionaryProps) => {
                     !hasNext ? 'p-6' : 'm-6'
                   }`}
                 >
-                  <div className="stat">
-                    <div className="stat-title">
-                      Puntos
-                      {/* {`${(currentQuestionId ?? 0) + 1}/${questionsCount}`} */}
+                  {!showAnswers && (
+                    <div className="stat">
+                      <div className="stat-title">
+                        Puntos
+                        {/* {`${(currentQuestionId ?? 0) + 1}/${questionsCount}`} */}
+                      </div>
+                      <div className="stat-value">{score}</div>
+                      <div className="stat-desc ">
+                        {!timeOver && (
+                          <span className="font-mono text-2xl countdown">
+                            <span
+                              style={{ ['--value' as any]: minutes }}
+                            ></span>
+                            :
+                            <span
+                              style={{ ['--value' as any]: seconds }}
+                            ></span>
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="stat-value">{score}</div>
-                    <div className="stat-desc ">
-                      {!timeOver && (
-                        <span className="font-mono text-2xl countdown">
-                          <span style={{ ['--value' as any]: minutes }}></span>:
-                          <span style={{ ['--value' as any]: seconds }}></span>
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  )}
                   {hasNext && <Timer />}
                   {!hasNext && (
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center gap-2">
                       <div className="p-6">
                         <Cat infinite={true} />
                       </div>
-
                       <button onClick={playAgain} className="btn btn-primary">
                         Jugar de nuevo
+                      </button>
+                      <button
+                        onClick={onShowAnswers}
+                        className="btn btn-secondary"
+                      >
+                        Ver respuestas
                       </button>
                     </div>
                   )}
                 </div>
+              </div>
+            )}
+            {showAnswers && (
+              <div className="justify-center pt-4 card-actions">
+                {questions.map((question, index) => {
+                  const color = getColor(index)
+                  return (
+                    <button
+                      key={`${question.id}-${index}-${color}`}
+                      className={t`btn bg-${color} btn-wide normal-case`}
+                    >
+                      {question.content.label}
+                    </button>
+                  )
+                })}
               </div>
             )}
             {showTrivia && (
@@ -114,7 +148,7 @@ const Pictionary = ({ words }: PictionaryProps) => {
                 onSuccess={goNextQuestion}
                 sound={question.sound}
                 src={question.url}
-                label={question.word}
+                label={question.label}
                 options={question.options}
                 pickedOptions={question.pickedOptions}
                 correctAnswer={question.word}

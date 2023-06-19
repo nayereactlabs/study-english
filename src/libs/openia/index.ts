@@ -54,7 +54,7 @@ async function callOpenIAWithRetry(
   retryCount: number = 0,
   maxRetries: number = 5
 ) {
-  if (!apiKey || import.meta.env.VITE_OFFLINE) {
+  if (!apiKey) {
     return defaultResponse
   }
   try {

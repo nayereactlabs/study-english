@@ -35,11 +35,14 @@ export interface Phonetic {
   text?: string
 }
 
-function getUSSound(words: SoundAPI[]): string | undefined {
+function getUSSound(words: SoundAPI[]): Phonetic | undefined {
   for (const word of words) {
     for (const phonetic of word.phonetics) {
       if (phonetic.audio.toLowerCase().includes('-us.')) {
-        return phonetic.audio
+        return {
+          audio: phonetic.audio,
+          text: phonetic.text
+        }
       }
     }
   }
@@ -47,8 +50,11 @@ function getUSSound(words: SoundAPI[]): string | undefined {
 }
 
 export const searchSound = async (query: string) => {
-  if (!query) return null
-  let audio = ''
+  let phonetic: Phonetic = {
+    audio: '',
+    text: ''
+  }
+  if (!query) return phonetic
   try {
     const result = await fetch(
       `https://api.dictionaryapi.dev/api/v2/entries/en/${query}`
@@ -56,12 +62,12 @@ export const searchSound = async (query: string) => {
     const apiResult = (await result.json()) as SoundAPI[]
 
     if (apiResult.length > 0) {
-      audio = getUSSound(apiResult) || ''
+      phonetic = getUSSound(apiResult) || phonetic
     }
-    return audio
+    return phonetic
   } catch (e) {
     console.log(e)
-    return audio
+    return phonetic
   }
 }
 
