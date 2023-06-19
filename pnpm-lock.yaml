@@ -32,6 +32,9 @@ dependencies:
   react-use:
     specifier: ^17.4.0
     version: 17.4.0(react-dom@18.2.0)(react@18.2.0)
+  react-use-audio-player:
+    specifier: ^2.0.0
+    version: 2.0.0(react@18.2.0)
 
 devDependencies:
   '@babel/core':
@@ -3330,6 +3333,10 @@ packages:
     dependencies:
       function-bind: 1.1.1
 
+  /howler@2.2.3:
+    resolution: {integrity: sha512-QM0FFkw0LRX1PR8pNzJVAY25JhIWvbKMBFM4gqk+QdV+kPXOhleWGCB6AiAF/goGjIHK2e/nIElplvjQwhr0jg==}
+    dev: false
+
   /hyphenate-style-name@1.0.4:
     resolution: {integrity: sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==}
     dev: false
@@ -4205,6 +4212,15 @@ packages:
     dependencies:
       react: 18.2.0
       tslib: 2.5.3
+    dev: false
+
+  /react-use-audio-player@2.0.0(react@18.2.0):
+    resolution: {integrity: sha512-1XkaeYyZoodryvqMn509yWzjiVozcWmWYmsNXEISw3VGLgdK5PEc9noo7MntmzCfdXovjuASF96s91lgWGyHOQ==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      howler: 2.2.3
+      react: 18.2.0
     dev: false
 
   /react-use@17.4.0(react-dom@18.2.0)(react@18.2.0):

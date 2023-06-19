@@ -45,7 +45,6 @@ export const TriviaCard = ({
 
       <div className="flex flex-col items-center flex-grow h-64 overflow-y-auto card-body sm:h-72 md:h-80 lg:h-96">
         <h2 className="card-title">Quién soy?</h2>
-        <p></p>
         {showSuccessAnimation && <Correct onComplete={onSuccess} />}
         {onFail && showFailAnimation && <Wrong onComplete={onFail} />}
         <div className="justify-center pt-4 card-actions">
@@ -57,7 +56,9 @@ export const TriviaCard = ({
                 key={`${option}-${index}-${color}`}
                 className={t`btn bg-${color} btn-wide ${
                   showFeedback ? 'invisible' : ''
-                } ${pickedOptions.includes(option) ? 'btn-disabled' : ''}`}
+                } ${
+                  pickedOptions.includes(option) ? 'btn-disabled' : ''
+                } normal-case`}
               >
                 {option}
               </button>

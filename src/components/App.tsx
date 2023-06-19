@@ -16,7 +16,7 @@ function App() {
     <>
       <div
         ref={mainRef}
-        className="grid w-full h-screen overflow-y-auto bg-black place-items-center"
+        className="grid w-full h-screen overflow-y-auto place-items-center"
       >
         <Pictionary />
       </div>

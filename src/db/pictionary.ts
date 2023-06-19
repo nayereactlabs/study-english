@@ -1,40 +1,42 @@
+import { shuffleArray } from 'utils'
+
 const words = [
-  'front',
-  'desk',
-  'cot',
-  'crib',
-  'express',
-  'checkout',
-  'kiosk',
-  'fitness',
-  'centre',
-  'hairdryer',
-  'indoor',
-  'swimming',
-  'pool',
-  'in-room',
-  'safe',
-  'iron',
-  'laundry',
-  'service',
-  'walk-in',
-  'shower',
-  'blanket',
-  'duvet',
-  'hand',
-  'lotion',
-  'pillow',
-  'shampoo',
-  'sheet',
-  'shower',
-  'gel',
-  'soap',
-  'toiletries',
-  'bedclothes'
+  'dog',
+  'cat',
+  'elephant',
+  'tiger',
+  'lion',
+  'giraffe',
+  'zebra',
+  'bear',
+  'monkey',
+  'hippopotamus',
+  'rhinoceros',
+  'kangaroo',
+  'penguin',
+  'crocodile',
+  'snake',
+  'wolf',
+  'fox',
+  'deer',
+  'rabbit',
+  'owl',
+  'beach',
+  'mountain',
+  'sightseeing',
+  'adventure',
+  'culture',
+  'explore',
+  'vacation',
+  'camera',
+  'passport',
+  'hiking',
+  'scenic',
+  'tourism'
 ]
 
 const generateQuestions = (words: string[]) => {
-  return words.map((word) => {
+  return shuffleArray([...words]).map((word) => {
     const incorrectOptions = words
       .filter((option) => option !== word)
       .sort(() => 1 - Math.random())
@@ -47,7 +49,8 @@ const generateQuestions = (words: string[]) => {
       label: '',
       options: options,
       answer: word,
-      correctAnswerTranslation: ''
+      correctAnswerTranslation: '',
+      sound: ''
     }
   })
 }
@@ -58,6 +61,7 @@ export type PictionaryQuestionInput = {
   options: string[]
   answer: string
   correctAnswerTranslation: string
+  sound: string
 }
 
 export type PictionaryQuestion = {
@@ -69,6 +73,7 @@ export type PictionaryQuestion = {
   url: string
   answer: string
   correctAnswerTranslation: string
+  sound: string
 }
 
 export const pictionaryQuestions = generateQuestions(words)
