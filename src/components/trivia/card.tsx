@@ -59,7 +59,7 @@ export const TriviaCard = ({
       </div>
 
       <div className="flex flex-col items-center flex-grow h-64 overflow-y-auto card-body sm:h-72 md:h-80 lg:h-96">
-        <h2 className="card-title">Quién soy?</h2>
+        {/* <h2 className="card-title">Quién soy?</h2> */}
         {showSuccessAnimation && <Correct onComplete={onSuccess} />}
         {onFail && showFailAnimation && <Wrong onComplete={onFail} />}
         <div className="justify-center pt-4 card-actions">

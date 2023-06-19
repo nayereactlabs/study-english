@@ -57,32 +57,37 @@ const Pictionary = ({ words }: PictionaryProps) => {
   return (
     <>
       <div className="flex flex-col items-center justify-center w-full min-h-full">
-        {((!showLoader && !hasNext) || showTrivia) && (
-          <div className="flex flex-row">
+        <>
+          {((!showLoader && !hasNext) || showTrivia) && (
             <div
-              className={`flex flex-col text-center shadow stats ${
-                !hasNext ? 'p-6' : ''
-              }`}
+              className="flex flex-row items-center justify-center w-full"
+              data-id="user-stats"
             >
-              <div className="stat">
-                <div className="stat-title">Puntos</div>
-                <div className="stat-value">{score}</div>
-              </div>
-              {!hasNext && (
-                <div className="flex flex-col items-center justify-center">
-                  <div className="p-6">
-                    <Cat infinite={true} />
-                  </div>
-
-                  <button onClick={playAgain} className="btn btn-primary">
-                    Jugar de nuevo
-                  </button>
+              <div
+                className={`flex flex-row items-center justify-center text-center shadow stats ${
+                  !hasNext ? 'p-6' : ''
+                }`}
+              >
+                <div className="stat">
+                  <div className="stat-title">Puntos</div>
+                  <div className="stat-value">{score}</div>
                 </div>
-              )}
+                {hasNext && <Timer onComplete={skipQuestion} />}
+                {!hasNext && (
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="p-6">
+                      <Cat infinite={true} />
+                    </div>
+
+                    <button onClick={playAgain} className="btn btn-primary">
+                      Jugar de nuevo
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-            {hasNext && <Timer onComplete={skipQuestion} />}
-          </div>
-        )}
+          )}
+        </>
         {showLoader && (
           <>
             <Cat infinite />
