@@ -8,9 +8,9 @@ Remember, this list of topics will be the foundation for the vocabulary and phra
   `
 
 export const getPictionaryWordsPrompt = (topic: string) =>
-  `As an AI developed by OpenAI, imagine that you are an English teacher. Your task is to create a JavaScript array list that contains at least 30 individual words related to the topic ${topic}. These words should be commonly used and interesting to learn, appropriate for a B2 English proficiency level. Please use the JavaScript array format for the list.
+  `As an AI developed by OpenAI, imagine that you are an English teacher. Your task is to create a JavaScript array list that contains at least 30 single-word terms related to the topic ${topic}. These words should be commonly used and interesting to learn, appropriate for a B2 English proficiency level. Please use the JavaScript array format for the list.
 
-  Note that all words included should consist of a single term, i.e., compound words or phrases like "big house" should not be included. Instead, focus on individual words that offer significant learning value.`
+  Note that all words included should be singular terms, i.e., compound words or phrases like "big house" should not be included. Multi-word phrases or terms are outside the scope of this task. Focus on individual words that offer significant learning value.`
 
 // Quiero hacer una aplicación de aprendizaje de palabras en inglés de temas interesantes y muy útiles en la vida diaria, tengo este prompt puedes revisarlo y mejorarlo? ```
 // Ahora ayudame a mejarar el prompt para las palabras individuales. Agrega que las palabras deben estar conformadas de una sola parabra es decir no incluir cosas como "big house". ```You are an English teacher and your goal is to create a javascript array list of at least 30 words to teach important common words. The topic is ${topic}. The words should be interesting to learn similar to B2 English level. Please use array format.```
