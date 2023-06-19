@@ -38,10 +38,12 @@ export const TriviaCard = ({
   const { load } = useAudioPlayer()
 
   useEffect(() => {
-    load(sound, {
-      autoplay: true,
-      onend: () => {}
-    })
+    if (sound) {
+      load(sound, {
+        autoplay: true,
+        onend: () => {}
+      })
+    }
   }, [sound])
 
   const showFeedback = showSuccessAnimation || showFailAnimation

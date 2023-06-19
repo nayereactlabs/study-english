@@ -74,7 +74,6 @@ async function callOpenIAWithRetry(
     const transformedResponse = transformResponse(
       completion.data as unknown as ChatCompletion
     )
-    console.log({ transformedResponse })
     return transformedResponse
   } catch (error) {
     console.log('[error]', error)

@@ -8,6 +8,7 @@ export type Question<T> = {
 type UseTriviaHook<T> = {
   questions: Question<T>[]
   question: Question<T> | null
+  questionsCount: number
   prev: () => void
   next: () => void
   hasNext: boolean
@@ -15,6 +16,7 @@ type UseTriviaHook<T> = {
   addNew: (content: T) => void
   setQuestions: (questions: Question<T>[]) => void
   changeQuestion: (questionId: number, newContent: T) => void
+  goEnd: () => void
 }
 
 function useTrivia<T>(initialQuestions: Question<T>[] = []): UseTriviaHook<T> {
@@ -63,16 +65,22 @@ function useTrivia<T>(initialQuestions: Question<T>[] = []): UseTriviaHook<T> {
     }
   }, [hasPrev])
 
+  const goEnd = useCallback(() => {
+    setCurrentQuestionIndex(questions.length - 1)
+  }, [questions.length])
+
   return {
     setQuestions,
     changeQuestion,
     questions,
+    questionsCount: questions.length,
     question,
     prev,
     next,
     hasNext,
     hasPrev,
-    addNew
+    addNew,
+    goEnd
   }
 }
 

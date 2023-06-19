@@ -20,7 +20,8 @@ export const getQuestions = async (words: string[]) => {
     )
   )
     .filter(assertFulfilled)
-    .filter((item) => item.value.url && item.value.sound)
+    .filter((item) => item.value.url)
     .map((item) => item.value) as PictionaryQuestion[]
+  console.log({ questions: questions.length })
   return questions
 }

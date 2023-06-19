@@ -15,7 +15,9 @@ const usePictionary = ({ onSuccess, onFail, words }: UsePictionaryHook) => {
     changeQuestion,
     question,
     next: goNext,
-    hasNext
+    goEnd,
+    hasNext,
+    questionsCount
   } = useTrivia<PictionaryQuestion>()
 
   const [isLoading, setIsLoading] = useState(true)
@@ -23,12 +25,7 @@ const usePictionary = ({ onSuccess, onFail, words }: UsePictionaryHook) => {
 
   useEffect(() => {
     if (!words || words.length < 1) return
-    // just for demo
-    let _words = words.slice(0, 4)
-    if (!import.meta.env.VITE_OFFLINE) {
-      _words = words
-    }
-    getQuestions(_words)
+    getQuestions(words)
       .then((newQuestions) => {
         setQuestions(
           newQuestions.map((question, index) => ({
@@ -58,8 +55,11 @@ const usePictionary = ({ onSuccess, onFail, words }: UsePictionaryHook) => {
 
   return {
     goNext,
+    goEnd,
     handleOptionClick,
     question: currentQuestion,
+    currentQuestionId,
+    questionsCount,
     hasNext,
     isLoading
   }
