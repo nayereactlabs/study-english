@@ -36,13 +36,12 @@ const words = [
 ]
 
 const generateQuestions = (words: string[]) => {
-  return shuffleArray([...words]).map((word) => {
+  return words.map((word) => {
     const incorrectOptions = words
       .filter((option) => option !== word)
-      .sort(() => 1 - Math.random())
       .slice(0, 3)
 
-    const options = [word, ...incorrectOptions].sort(() => 1 - Math.random())
+    const options = shuffleArray([word, ...incorrectOptions])
 
     return {
       word,
@@ -76,4 +75,4 @@ export type PictionaryQuestion = {
   sound: string
 }
 
-export const pictionaryQuestions = generateQuestions(words)
+export const pictionaryQuestions = generateQuestions(shuffleArray([...words]))

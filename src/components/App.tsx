@@ -2,6 +2,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Pictionary from './games/pictionary'
 import { useEffect, useRef } from 'react'
+import './app.css'
 
 function App() {
   const mainRef = useRef<HTMLDivElement>(null)

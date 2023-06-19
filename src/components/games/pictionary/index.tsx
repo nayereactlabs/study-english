@@ -3,14 +3,12 @@ import { TriviaCard } from 'components/trivia/card'
 import usePictionary from 'hooks/use-pictionary'
 import useTriviaScore from 'hooks/use-trivia-score'
 import { useEffect, useState } from 'react'
-import { useAudioPlayer } from 'react-use-audio-player'
 
 const Pictionary = () => {
   const { score, setScore, incrementScore, decrementScore } = useTriviaScore()
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
   const [showFailAnimation, setShowFailAnimation] = useState(false)
   const [isLoading, setLoading] = useState(true)
-  const { load } = useAudioPlayer()
 
   const onSuccess = () => {
     setShowSuccessAnimation(true)
@@ -37,17 +35,7 @@ const Pictionary = () => {
     onFail
   })
 
-  const onPlay = () => {
-    if (question?.sound) {
-      load(question.sound, {
-        autoplay: true,
-        onend: () => {}
-      })
-    }
-  }
-
   const onLoad = () => {
-    onPlay()
     setLoading(false)
   }
 
@@ -57,12 +45,6 @@ const Pictionary = () => {
 
   const showLoader = arePictureLoading || isLoading
   const showTrivia = question && hasNext && !showLoader
-
-  useEffect(() => {
-    onPlay()
-  }, [question?.sound])
-
-  console.log('question', question)
 
   // bg-blue-200
   return (
@@ -79,17 +61,28 @@ const Pictionary = () => {
               <div className="stat-value">{score}</div>
             </div>
             {!hasNext && (
-              <button onClick={playAgain} className="btn btn-primary">
-                Jugar de nuevo
-              </button>
+              <div className="flex flex-col items-center justify-center">
+                <div className="p-6">
+                  <Cat infinite={true} />
+                </div>
+
+                <button onClick={playAgain} className="btn btn-primary">
+                  Jugar de nuevo
+                </button>
+              </div>
             )}
           </div>
         )}
-        {showLoader && <Cat onComplete={onLoad} />}
+        {showLoader && (
+          <>
+            <Cat onComplete={onLoad} />
+          </>
+        )}
         {showTrivia && (
           <div className="p-4">
             <TriviaCard
               onSuccess={goNextQuestion}
+              sound={question.sound}
               src={question.url}
               label={question.word}
               options={question.options}

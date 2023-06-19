@@ -12,7 +12,7 @@ export const getQuestions = async () => {
         return {
           ...question,
           urls: urls,
-          url: urls?.[0],
+          url: urls?.[0] || '',
           pickedOptions: [],
           sound
         }
@@ -20,6 +20,7 @@ export const getQuestions = async () => {
     )
   )
     .filter(assertFulfilled)
+    .filter((item) => item.value.url && item.value.sound)
     .map((item) => item.value) as PictionaryQuestion[]
   return questions
 }

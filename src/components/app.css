@@ -1,0 +1,5 @@
+*,
+::before,
+::after {
+  border-color: #ffffff00 !important;
+}

@@ -1,10 +1,14 @@
 import { Correct } from 'components/animations/correct'
 import { Wrong } from 'components/animations/wrong'
 import { getColor, t } from 'utils/css'
+import { useAudioPlayer } from 'react-use-audio-player'
+import { useEffect } from 'react'
+import { useEffectOnce } from 'react-use'
 
 type TriviaCardProps = {
   src: string
   options: string[]
+  sound: string
   pickedOptions: string[]
   correctAnswer: string
   label?: string
@@ -20,6 +24,7 @@ type TriviaCardProps = {
 
 export const TriviaCard = ({
   src,
+  sound,
   label,
   options,
   pickedOptions,
@@ -29,6 +34,15 @@ export const TriviaCard = ({
   onSuccess,
   onFail
 }: TriviaCardProps) => {
+  const { load } = useAudioPlayer()
+
+  useEffect(() => {
+    load(sound, {
+      autoplay: true,
+      onend: () => {}
+    })
+  }, [sound])
+
   const showFeedback = showSuccessAnimation || showFailAnimation
 
   return (

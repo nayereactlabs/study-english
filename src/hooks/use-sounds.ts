@@ -55,11 +55,9 @@ export const searchSound = async (query: string) => {
     )
     const apiResult = (await result.json()) as SoundAPI[]
 
-    console.log({ apiResult })
     if (apiResult.length > 0) {
       audio = getUSSound(apiResult) || ''
     }
-    console.log({ audio })
     return audio
   } catch (e) {
     console.log(e)
