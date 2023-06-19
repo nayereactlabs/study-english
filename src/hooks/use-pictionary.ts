@@ -6,9 +6,10 @@ import { getQuestions } from 'components/games/pictionary/generator'
 type UsePictionaryHook = {
   onSuccess: () => void
   onFail: () => void
+  words: string[]
 }
 
-const usePictionary = ({ onSuccess, onFail }: UsePictionaryHook) => {
+const usePictionary = ({ onSuccess, onFail, words }: UsePictionaryHook) => {
   const {
     setQuestions,
     changeQuestion,
@@ -21,7 +22,13 @@ const usePictionary = ({ onSuccess, onFail }: UsePictionaryHook) => {
   const { content: currentQuestion, id: currentQuestionId } = question || {}
 
   useEffect(() => {
-    getQuestions()
+    if (!words || words.length < 1) return
+    // just for demo
+    let _words = words.slice(0, 4)
+    if (!import.meta.env.VITE_OFFLINE) {
+      _words = words
+    }
+    getQuestions(_words)
       .then((newQuestions) => {
         setQuestions(
           newQuestions.map((question, index) => ({
@@ -33,7 +40,7 @@ const usePictionary = ({ onSuccess, onFail }: UsePictionaryHook) => {
       .finally(() => {
         setIsLoading(false)
       })
-  }, [])
+  }, [words])
 
   const handleOptionClick = (option: string) => {
     if (currentQuestion?.answer === option) {

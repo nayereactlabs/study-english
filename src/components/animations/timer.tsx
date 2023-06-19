@@ -20,7 +20,7 @@ export const Timer = ({ onComplete }: LottieProps) => {
   const { View, setSpeed } = useLottie(options, style)
 
   useEffectOnce(() => {
-    setSpeed(0.3)
+    setSpeed(0.1)
   })
 
   return View

@@ -75,4 +75,5 @@ export type PictionaryQuestion = {
   sound: string
 }
 
-export const pictionaryQuestions = generateQuestions(shuffleArray([...words]))
+export const getPictionaryQuestions = (words: string[]) =>
+  generateQuestions(shuffleArray([...words]))

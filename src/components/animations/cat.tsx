@@ -32,8 +32,8 @@ export const Cat = ({ onComplete, infinite = false }: LottieProps) => {
     <Lottie
       className={infinite ? t`w-52 ` : ''}
       animationData={animation}
-      loop={false}
-      onComplete={() => {
+      loop={infinite}
+      onLoopComplete={() => {
         if (infinite) {
           shuffle()
           return

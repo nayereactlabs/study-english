@@ -5,11 +5,14 @@ import usePictionary from 'hooks/use-pictionary'
 import useTriviaScore from 'hooks/use-trivia-score'
 import { useState } from 'react'
 
-const Pictionary = () => {
+type PictionaryProps = {
+  words: string[]
+}
+
+const Pictionary = ({ words }: PictionaryProps) => {
   const { score, setScore, incrementScore, decrementScore } = useTriviaScore(0)
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
   const [showFailAnimation, setShowFailAnimation] = useState(false)
-  const [isLoading, setLoading] = useState(true)
 
   const onSuccess = () => {
     setShowSuccessAnimation(true)
@@ -39,26 +42,23 @@ const Pictionary = () => {
     isLoading: arePictureLoading,
     goNext
   } = usePictionary({
+    words,
     onSuccess,
     onFail
   })
-
-  const onLoad = () => {
-    setLoading(false)
-  }
 
   const playAgain = () => {
     window.location.reload()
   }
 
-  const showLoader = arePictureLoading || isLoading
+  const showLoader = arePictureLoading || words.length === 0
   const showTrivia = question && hasNext && !showLoader
 
   return (
     <>
       <div className="flex flex-col items-center justify-center w-full min-h-full">
         {((!showLoader && !hasNext) || showTrivia) && (
-          <div className="flex">
+          <div className="flex flex-row">
             <div
               className={`flex flex-col text-center shadow stats ${
                 !hasNext ? 'p-6' : ''
@@ -85,7 +85,8 @@ const Pictionary = () => {
         )}
         {showLoader && (
           <>
-            <Cat onComplete={onLoad} />
+            <Cat infinite />
+            Creando preguntas ❤️ ...
           </>
         )}
         {showTrivia && (

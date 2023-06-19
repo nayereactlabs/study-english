@@ -1,12 +1,12 @@
-import { PictionaryQuestion, pictionaryQuestions } from 'db/pictionary'
+import { PictionaryQuestion, getPictionaryQuestions } from 'db/pictionary'
 import { searchPicture } from 'hooks/use-pexels'
 import { searchSound } from 'hooks/use-sounds'
 import { assertFulfilled } from 'utils'
 
-export const getQuestions = async () => {
+export const getQuestions = async (words: string[]) => {
   const questions = (
     await Promise.allSettled(
-      pictionaryQuestions.map(async (question) => {
+      getPictionaryQuestions(words).map(async (question) => {
         const urls = await searchPicture(question.word)
         const sound = await searchSound(question.word)
         return {

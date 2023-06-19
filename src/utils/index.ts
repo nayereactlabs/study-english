@@ -20,3 +20,5 @@ export function assertFulfilled<T>(
 export const getRandomItem = (items: any[]) => {
   return items[Math.floor(Math.random() * items.length)]
 }
+
+export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
