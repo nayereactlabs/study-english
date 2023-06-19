@@ -4,6 +4,7 @@ import { getColor, t } from 'utils/css'
 import { useAudioPlayer } from 'react-use-audio-player'
 import { useEffect } from 'react'
 import { useEffectOnce } from 'react-use'
+import { Bomb } from 'components/animations/bomb'
 
 type TriviaCardProps = {
   src: string

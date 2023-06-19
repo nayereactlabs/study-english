@@ -15,7 +15,7 @@ function useTriviaScore(initialScore: number = 100): UseTriviaScoreHook {
   }
 
   const decrementScore = (points: number = 1) => {
-    setScore((prevScore) => prevScore - points)
+    setScore((prevScore) => (prevScore > 0 ? prevScore - points : prevScore))
   }
 
   return {
