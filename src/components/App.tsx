@@ -6,49 +6,34 @@ import './app.css'
 import { getPictinaryTopics, getPictinaryWords } from 'libs/openia'
 import { shuffleArray } from 'utils'
 import { useEffectOnce } from 'react-use'
+import { useViewPort } from 'hooks/use-viewport'
 
 function App() {
-  const mainRef = useRef<HTMLDivElement>(null)
+  // useEffectOnce(() => {
+  //   const fetchWords = async () => {
+  //     const topics = await getPictinaryTopics()
+  //     const topic = shuffleArray([...topics])[0]
+  //     const words = await getPictinaryWords(topic)
+  //     setWords(words)
+  //   }
 
-  const [words, setWords] = useState<string[]>([])
+  //   fetchWords()
+  // })
 
-  useEffectOnce(() => {
-    const fetchWords = async () => {
-      const topics = await getPictinaryTopics()
-      const topic = shuffleArray([...topics])[0]
-      const words = await getPictinaryWords(topic)
-      setWords(words)
-    }
-
-    fetchWords()
-  })
-
-  const updateHeight = () => {
-    if (mainRef.current) {
-      mainRef.current.style.height = `${window.innerHeight}px`
-    }
-  }
-
-  useEffect(() => {
-    updateHeight() // Update the height on initial render
-    window.addEventListener('resize', updateHeight) // Update the height whenever the window is resized
-
-    // Remove the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('resize', updateHeight)
-    }
-  }, [])
+  useViewPort()
 
   return (
-    <>
-      <div
-        ref={mainRef}
-        className="grid w-full h-screen overflow-y-auto place-items-center"
-      >
-        <Pictionary words={words} />
+    <main>
+      <div className="flex items-center justify-center w-full height-full-screen">
+        <div className="mockup-phone">
+          <div className="camera"></div>
+          <div className="display">
+            <div className="artboard artboard-demo phone-1">Hello.</div>
+          </div>
+        </div>
       </div>
       <ToastContainer autoClose={2000} />
-    </>
+    </main>
   )
 }
 
