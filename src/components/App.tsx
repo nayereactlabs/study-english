@@ -1,54 +1,41 @@
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import Pictionary from './games/pictionary'
 import { useEffect, useRef, useState } from 'react'
-import './app.css'
 import { getPictinaryTopics, getPictinaryWords } from 'libs/openia'
 import { shuffleArray } from 'utils'
 import { useEffectOnce } from 'react-use'
+import { useViewPort } from 'hooks/use-viewport'
+
+import 'react-toastify/dist/ReactToastify.css'
+import 'react-simple-keyboard/build/css/index.css'
+import './app.css'
+import { MainContainer } from './layout/main-container'
+import { DemoCard } from './demo/demo-card'
+import { DemoPhone } from './demo/demo-phone'
+import { DemoGallery, DemoGallery2 } from './demo/demo-gallery'
+import { ImagePickerGallery } from 'generators/image-picker-gallery'
 
 function App() {
-  const mainRef = useRef<HTMLDivElement>(null)
+  // useEffectOnce(() => {
+  //   const fetchWords = async () => {
+  //     const topics = await getPictinaryTopics()
+  //     const topic = shuffleArray([...topics])[0]
+  //     const words = await getPictinaryWords(topic)
+  //     setWords(words)
+  //   }
 
-  const [words, setWords] = useState<string[]>([])
-
-  useEffectOnce(() => {
-    const fetchWords = async () => {
-      const topics = await getPictinaryTopics()
-      const topic = shuffleArray([...topics])[0]
-      const words = await getPictinaryWords(topic)
-      setWords(words)
-    }
-
-    fetchWords()
-  })
-
-  const updateHeight = () => {
-    if (mainRef.current) {
-      mainRef.current.style.height = `${window.innerHeight}px`
-    }
-  }
-
-  useEffect(() => {
-    updateHeight() // Update the height on initial render
-    window.addEventListener('resize', updateHeight) // Update the height whenever the window is resized
-
-    // Remove the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('resize', updateHeight)
-    }
-  }, [])
+  //   fetchWords()
+  // })
 
   return (
-    <>
-      <div
-        ref={mainRef}
-        className="grid w-full h-screen overflow-y-auto place-items-center"
-      >
-        <Pictionary words={words} />
-      </div>
+    <main>
+      <MainContainer>
+        {/* <DemoCard /> */}
+        {/* <DemoPhone /> */}
+        <ImagePickerGallery />
+      </MainContainer>
       <ToastContainer autoClose={2000} />
-    </>
+    </main>
   )
 }
 

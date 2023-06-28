@@ -24,7 +24,11 @@ module.exports = {
   },
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {}
+    extend: {
+      height: {
+        'full-screen': 'calc(var(--vh, 1vh) * 100)'
+      }
+    }
   },
   plugins: [require('daisyui')]
 }
