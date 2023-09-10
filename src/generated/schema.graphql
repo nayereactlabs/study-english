@@ -1,0 +1,872 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """measured in seconds"""
+  ttl: Int! = 60
+
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+"""ordering argument of a cursor"""
+enum cursor_ordering {
+  """ascending ordering of the cursor"""
+  ASC
+
+  """descending ordering of the cursor"""
+  DESC
+}
+
+scalar jsonb
+
+input jsonb_cast_exp {
+  String: String_comparison_exp
+}
+
+"""
+Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'.
+"""
+input jsonb_comparison_exp {
+  _cast: jsonb_cast_exp
+
+  """is the column contained in the given json value"""
+  _contained_in: jsonb
+
+  """does the column contain the given json value at the top level"""
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+
+  """does the string exist as a top-level key in the column"""
+  _has_key: String
+
+  """do all of these strings exist as top-level keys in the column"""
+  _has_keys_all: [String!]
+
+  """do any of these strings exist as top-level keys in the column"""
+  _has_keys_any: [String!]
+  _in: [jsonb!]
+  _is_null: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "pictionary"
+  """
+  delete_pictionary(
+    """filter the rows which have to be deleted"""
+    where: pictionary_bool_exp!
+  ): pictionary_mutation_response
+
+  """
+  delete single row from the table: "pictionary"
+  """
+  delete_pictionary_by_pk(word: String!): pictionary
+
+  """
+  delete data from the table: "trivia_type"
+  """
+  delete_trivia_type(
+    """filter the rows which have to be deleted"""
+    where: trivia_type_bool_exp!
+  ): trivia_type_mutation_response
+
+  """
+  delete single row from the table: "trivia_type"
+  """
+  delete_trivia_type_by_pk(value: String!): trivia_type
+
+  """
+  insert data into the table: "pictionary"
+  """
+  insert_pictionary(
+    """the rows to be inserted"""
+    objects: [pictionary_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: pictionary_on_conflict
+  ): pictionary_mutation_response
+
+  """
+  insert a single row into the table: "pictionary"
+  """
+  insert_pictionary_one(
+    """the row to be inserted"""
+    object: pictionary_insert_input!
+
+    """upsert condition"""
+    on_conflict: pictionary_on_conflict
+  ): pictionary
+
+  """
+  insert data into the table: "trivia_type"
+  """
+  insert_trivia_type(
+    """the rows to be inserted"""
+    objects: [trivia_type_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: trivia_type_on_conflict
+  ): trivia_type_mutation_response
+
+  """
+  insert a single row into the table: "trivia_type"
+  """
+  insert_trivia_type_one(
+    """the row to be inserted"""
+    object: trivia_type_insert_input!
+
+    """upsert condition"""
+    on_conflict: trivia_type_on_conflict
+  ): trivia_type
+
+  """
+  update data of the table: "pictionary"
+  """
+  update_pictionary(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: pictionary_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: pictionary_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: pictionary_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: pictionary_delete_key_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: pictionary_prepend_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pictionary_set_input
+
+    """filter the rows which have to be updated"""
+    where: pictionary_bool_exp!
+  ): pictionary_mutation_response
+
+  """
+  update single row of the table: "pictionary"
+  """
+  update_pictionary_by_pk(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: pictionary_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: pictionary_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: pictionary_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: pictionary_delete_key_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: pictionary_prepend_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: pictionary_set_input
+    pk_columns: pictionary_pk_columns_input!
+  ): pictionary
+
+  """
+  update multiples rows of table: "pictionary"
+  """
+  update_pictionary_many(
+    """updates to execute, in order"""
+    updates: [pictionary_updates!]!
+  ): [pictionary_mutation_response]
+
+  """
+  update data of the table: "trivia_type"
+  """
+  update_trivia_type(
+    """sets the columns of the filtered rows to the given values"""
+    _set: trivia_type_set_input
+
+    """filter the rows which have to be updated"""
+    where: trivia_type_bool_exp!
+  ): trivia_type_mutation_response
+
+  """
+  update single row of the table: "trivia_type"
+  """
+  update_trivia_type_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: trivia_type_set_input
+    pk_columns: trivia_type_pk_columns_input!
+  ): trivia_type
+
+  """
+  update multiples rows of table: "trivia_type"
+  """
+  update_trivia_type_many(
+    """updates to execute, in order"""
+    updates: [trivia_type_updates!]!
+  ): [trivia_type_mutation_response]
+}
+
+"""column ordering options"""
+enum order_by {
+  """in ascending order, nulls last"""
+  asc
+
+  """in ascending order, nulls first"""
+  asc_nulls_first
+
+  """in ascending order, nulls last"""
+  asc_nulls_last
+
+  """in descending order, nulls first"""
+  desc
+
+  """in descending order, nulls first"""
+  desc_nulls_first
+
+  """in descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""
+columns and relationships of "pictionary"
+"""
+type pictionary {
+  metadata(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  src(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  word: String!
+}
+
+"""
+aggregated selection of "pictionary"
+"""
+type pictionary_aggregate {
+  aggregate: pictionary_aggregate_fields
+  nodes: [pictionary!]!
+}
+
+"""
+aggregate fields of "pictionary"
+"""
+type pictionary_aggregate_fields {
+  count(columns: [pictionary_select_column!], distinct: Boolean): Int!
+  max: pictionary_max_fields
+  min: pictionary_min_fields
+}
+
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input pictionary_append_input {
+  metadata: jsonb
+  src: jsonb
+}
+
+"""
+Boolean expression to filter rows from the table "pictionary". All fields are combined with a logical 'AND'.
+"""
+input pictionary_bool_exp {
+  _and: [pictionary_bool_exp!]
+  _not: pictionary_bool_exp
+  _or: [pictionary_bool_exp!]
+  metadata: jsonb_comparison_exp
+  src: jsonb_comparison_exp
+  word: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "pictionary"
+"""
+enum pictionary_constraint {
+  """
+  unique or primary key constraint on columns "word"
+  """
+  pictionary_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input pictionary_delete_at_path_input {
+  metadata: [String!]
+  src: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input pictionary_delete_elem_input {
+  metadata: Int
+  src: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input pictionary_delete_key_input {
+  metadata: String
+  src: String
+}
+
+"""
+input type for inserting data into table "pictionary"
+"""
+input pictionary_insert_input {
+  metadata: jsonb
+  src: jsonb
+  word: String
+}
+
+"""aggregate max on columns"""
+type pictionary_max_fields {
+  word: String
+}
+
+"""aggregate min on columns"""
+type pictionary_min_fields {
+  word: String
+}
+
+"""
+response of any mutation on the table "pictionary"
+"""
+type pictionary_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [pictionary!]!
+}
+
+"""
+on_conflict condition type for table "pictionary"
+"""
+input pictionary_on_conflict {
+  constraint: pictionary_constraint!
+  update_columns: [pictionary_update_column!]! = []
+  where: pictionary_bool_exp
+}
+
+"""Ordering options when selecting data from "pictionary"."""
+input pictionary_order_by {
+  metadata: order_by
+  src: order_by
+  word: order_by
+}
+
+"""primary key columns input for table: pictionary"""
+input pictionary_pk_columns_input {
+  word: String!
+}
+
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input pictionary_prepend_input {
+  metadata: jsonb
+  src: jsonb
+}
+
+"""
+select columns of table "pictionary"
+"""
+enum pictionary_select_column {
+  """column name"""
+  metadata
+
+  """column name"""
+  src
+
+  """column name"""
+  word
+}
+
+"""
+input type for updating data in table "pictionary"
+"""
+input pictionary_set_input {
+  metadata: jsonb
+  src: jsonb
+  word: String
+}
+
+"""
+Streaming cursor of the table "pictionary"
+"""
+input pictionary_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: pictionary_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input pictionary_stream_cursor_value_input {
+  metadata: jsonb
+  src: jsonb
+  word: String
+}
+
+"""
+update columns of table "pictionary"
+"""
+enum pictionary_update_column {
+  """column name"""
+  metadata
+
+  """column name"""
+  src
+
+  """column name"""
+  word
+}
+
+input pictionary_updates {
+  """append existing jsonb value of filtered columns with new jsonb value"""
+  _append: pictionary_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: pictionary_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: pictionary_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: pictionary_delete_key_input
+
+  """prepend existing jsonb value of filtered columns with new jsonb value"""
+  _prepend: pictionary_prepend_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: pictionary_set_input
+
+  """filter the rows which have to be updated"""
+  where: pictionary_bool_exp!
+}
+
+type query_root {
+  """
+  fetch data from the table: "pictionary"
+  """
+  pictionary(
+    """distinct select on columns"""
+    distinct_on: [pictionary_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pictionary_order_by!]
+
+    """filter the rows returned"""
+    where: pictionary_bool_exp
+  ): [pictionary!]!
+
+  """
+  fetch aggregated fields from the table: "pictionary"
+  """
+  pictionary_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pictionary_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pictionary_order_by!]
+
+    """filter the rows returned"""
+    where: pictionary_bool_exp
+  ): pictionary_aggregate!
+
+  """fetch data from the table: "pictionary" using primary key columns"""
+  pictionary_by_pk(word: String!): pictionary
+
+  """
+  fetch data from the table: "trivia_type"
+  """
+  trivia_type(
+    """distinct select on columns"""
+    distinct_on: [trivia_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [trivia_type_order_by!]
+
+    """filter the rows returned"""
+    where: trivia_type_bool_exp
+  ): [trivia_type!]!
+
+  """
+  fetch aggregated fields from the table: "trivia_type"
+  """
+  trivia_type_aggregate(
+    """distinct select on columns"""
+    distinct_on: [trivia_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [trivia_type_order_by!]
+
+    """filter the rows returned"""
+    where: trivia_type_bool_exp
+  ): trivia_type_aggregate!
+
+  """fetch data from the table: "trivia_type" using primary key columns"""
+  trivia_type_by_pk(value: String!): trivia_type
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "pictionary"
+  """
+  pictionary(
+    """distinct select on columns"""
+    distinct_on: [pictionary_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pictionary_order_by!]
+
+    """filter the rows returned"""
+    where: pictionary_bool_exp
+  ): [pictionary!]!
+
+  """
+  fetch aggregated fields from the table: "pictionary"
+  """
+  pictionary_aggregate(
+    """distinct select on columns"""
+    distinct_on: [pictionary_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [pictionary_order_by!]
+
+    """filter the rows returned"""
+    where: pictionary_bool_exp
+  ): pictionary_aggregate!
+
+  """fetch data from the table: "pictionary" using primary key columns"""
+  pictionary_by_pk(word: String!): pictionary
+
+  """
+  fetch data from the table in a streaming manner: "pictionary"
+  """
+  pictionary_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [pictionary_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: pictionary_bool_exp
+  ): [pictionary!]!
+
+  """
+  fetch data from the table: "trivia_type"
+  """
+  trivia_type(
+    """distinct select on columns"""
+    distinct_on: [trivia_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [trivia_type_order_by!]
+
+    """filter the rows returned"""
+    where: trivia_type_bool_exp
+  ): [trivia_type!]!
+
+  """
+  fetch aggregated fields from the table: "trivia_type"
+  """
+  trivia_type_aggregate(
+    """distinct select on columns"""
+    distinct_on: [trivia_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [trivia_type_order_by!]
+
+    """filter the rows returned"""
+    where: trivia_type_bool_exp
+  ): trivia_type_aggregate!
+
+  """fetch data from the table: "trivia_type" using primary key columns"""
+  trivia_type_by_pk(value: String!): trivia_type
+
+  """
+  fetch data from the table in a streaming manner: "trivia_type"
+  """
+  trivia_type_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [trivia_type_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: trivia_type_bool_exp
+  ): [trivia_type!]!
+}
+
+"""
+columns and relationships of "trivia_type"
+"""
+type trivia_type {
+  value: String!
+}
+
+"""
+aggregated selection of "trivia_type"
+"""
+type trivia_type_aggregate {
+  aggregate: trivia_type_aggregate_fields
+  nodes: [trivia_type!]!
+}
+
+"""
+aggregate fields of "trivia_type"
+"""
+type trivia_type_aggregate_fields {
+  count(columns: [trivia_type_select_column!], distinct: Boolean): Int!
+  max: trivia_type_max_fields
+  min: trivia_type_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "trivia_type". All fields are combined with a logical 'AND'.
+"""
+input trivia_type_bool_exp {
+  _and: [trivia_type_bool_exp!]
+  _not: trivia_type_bool_exp
+  _or: [trivia_type_bool_exp!]
+  value: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "trivia_type"
+"""
+enum trivia_type_constraint {
+  """
+  unique or primary key constraint on columns "value"
+  """
+  trivia_type_pkey
+}
+
+"""
+input type for inserting data into table "trivia_type"
+"""
+input trivia_type_insert_input {
+  value: String
+}
+
+"""aggregate max on columns"""
+type trivia_type_max_fields {
+  value: String
+}
+
+"""aggregate min on columns"""
+type trivia_type_min_fields {
+  value: String
+}
+
+"""
+response of any mutation on the table "trivia_type"
+"""
+type trivia_type_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [trivia_type!]!
+}
+
+"""
+on_conflict condition type for table "trivia_type"
+"""
+input trivia_type_on_conflict {
+  constraint: trivia_type_constraint!
+  update_columns: [trivia_type_update_column!]! = []
+  where: trivia_type_bool_exp
+}
+
+"""Ordering options when selecting data from "trivia_type"."""
+input trivia_type_order_by {
+  value: order_by
+}
+
+"""primary key columns input for table: trivia_type"""
+input trivia_type_pk_columns_input {
+  value: String!
+}
+
+"""
+select columns of table "trivia_type"
+"""
+enum trivia_type_select_column {
+  """column name"""
+  value
+}
+
+"""
+input type for updating data in table "trivia_type"
+"""
+input trivia_type_set_input {
+  value: String
+}
+
+"""
+Streaming cursor of the table "trivia_type"
+"""
+input trivia_type_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: trivia_type_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input trivia_type_stream_cursor_value_input {
+  value: String
+}
+
+"""
+update columns of table "trivia_type"
+"""
+enum trivia_type_update_column {
+  """column name"""
+  value
+}
+
+input trivia_type_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: trivia_type_set_input
+
+  """filter the rows which have to be updated"""
+  where: trivia_type_bool_exp!
+}

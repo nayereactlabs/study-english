@@ -1,4 +1,7 @@
-import { GeneratedImage, generatePictures } from 'generators/practices/words'
+import {
+  GeneratedImage,
+  generatePictures
+} from 'trivia-generators/practices/words'
 import { useState } from 'react'
 import { useEffectOnce } from 'react-use'
 

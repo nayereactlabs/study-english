@@ -9,7 +9,7 @@ const words: string[] = [
   'pineapple',
   'potato',
   'carrot',
-  'onion',aaaaa
+  'onion',
   'cabbage',
   'egg',
   'cucumber',
